@@ -16,6 +16,8 @@ limitations under the License.
 
 package v2beta1
 
+const ChartFinalizer = "chart.finalizers.fluxcd.io"
+
 const (
 	// ReleasedCondition represents the status of the last release attempt
 	// (install/upgrade/test) against the latest desired state.
