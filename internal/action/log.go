@@ -1,43 +1,21 @@
-/*
-Copyright 2021 The Flux authors
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-package runner
+package action
 
 import (
 	"container/ring"
 	"fmt"
-	"strings"
-	"sync"
-
+	"github.com/fluxcd/pkg/runtime/logger"
 	"github.com/go-logr/logr"
 	"helm.sh/helm/v3/pkg/action"
+	"strings"
+	"sync"
 )
 
 const defaultBufferSize = 5
 
-type DebugLog struct {
-	log logr.Logger
-}
-
-func NewDebugLog(log logr.Logger) *DebugLog {
-	return &DebugLog{log: log}
-}
-
-func (l *DebugLog) Log(format string, v ...interface{}) {
-	l.log.V(1).Info(fmt.Sprintf(format, v...))
+func DebugLogr(log logr.Logger) action.DebugLog {
+	return func(format string, v ...interface{}) {
+		log.V(logger.InfoLevel).Info(fmt.Sprintf(format, v...))
+	}
 }
 
 type LogBuffer struct {

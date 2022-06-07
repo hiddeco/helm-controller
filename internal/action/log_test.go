@@ -1,5 +1,5 @@
 /*
-Copyright 2021 The Flux authors
+Copyright 2022 The Flux authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package runner
+package action
 
 import (
 	"testing"
@@ -54,7 +54,7 @@ func TestLogBuffer_Log(t *testing.T) {
 
 func TestLogBuffer_Reset(t *testing.T) {
 	bufferSize := 10
-	l := NewLogBuffer(NewDebugLog(logr.Discard()).Log, bufferSize)
+	l := NewLogBuffer(DebugLogr(logr.Discard()).Log, bufferSize)
 
 	if got := l.buffer.Len(); got != bufferSize {
 		t.Errorf("Len() = %v, want %v", got, bufferSize)
@@ -91,7 +91,7 @@ func TestLogBuffer_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			l := NewLogBuffer(NewDebugLog(logr.Discard()).Log, tt.size)
+			l := NewLogBuffer(DebugLogr(logr.Discard()).Log, tt.size)
 			for _, v := range tt.fill {
 				l.Log("%s", v)
 			}
